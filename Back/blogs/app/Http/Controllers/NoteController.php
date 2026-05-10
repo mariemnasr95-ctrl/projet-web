@@ -89,4 +89,29 @@ class NoteController extends Controller
             'message' => 'Note deleted successfully'
         ]);
     }
+
+    public function toggleFavorite(Request $request, Note $note)
+    {
+        if ($note->user_id !== $request->user()->id) {
+            return response()->json(['message' => 'Note not found'], 404);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'favorite' => 'required|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $note->update(['favorite' => $request->input('favorite')]);
+
+        return response()->json([
+            'message' => 'Note favorite status updated successfully',
+            'note' => $note
+        ]);
+    }
 } 

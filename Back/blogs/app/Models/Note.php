@@ -14,20 +14,21 @@ class Note extends Model
         'title',
         'content',
         'priority',
-        'user_id'
+        'user_id',
+        'favorite'
     ];
 
     protected $casts = [
         'created_at' => 'datetime:Y-m-d',
     ];
 
-    // Accessor pour formater la date
+   
     public function getFormattedDateAttribute()
     {
         return $this->created_at->format('d/m/Y');
     }
 
-    // Relation avec l'utilisateur
+   
     public function user()
     {
         return $this->belongsTo(User::class);

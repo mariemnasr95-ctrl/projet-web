@@ -14,6 +14,7 @@ return new class extends Migration
             $table->string('title', 100);
             $table->text('content')->nullable();
             $table->enum('priority', ['basse', 'moyenne', 'haute'])->default('basse');
+            $table->boolean('favorite')->default(false);
             $table->timestamps();
         });
     }
