@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './notes.css';
 
 function Notes() {
   
+    const navigate = useNavigate();
     const [notes, setNotes] = useState([]);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [viewMode, setViewMode] = useState('all');
@@ -112,7 +114,7 @@ function Notes() {
                 handleCloseForm();   
             } else if (response.status === 401) {
                 alert("Session expirée. Veuillez vous reconnecter.");
-                window.location.href = '/login';
+                navigate('/login');
             } else {
                 const errorData = await response.json().catch(() => ({}));
                 alert(`Erreur: ${errorData.message || 'Impossible d\'enregistrer'}`);
@@ -148,7 +150,7 @@ function Notes() {
                 alert('Note supprimée avec succès');
             } else if (response.status === 401) {
                 alert("Session expirée. Veuillez vous reconnecter.");
-                window.location.href = '/login';
+                navigate('/login');
             } else {
                 const errorData = await response.json().catch(() => ({}));
                 alert(`Erreur: ${errorData.message || 'Impossible de supprimer'}`);
@@ -189,7 +191,7 @@ function Notes() {
                 setNotes(notes.map(n => n.id === id ? { ...n, favorite: newStatus } : n));
             } else if (response.status === 401) {
                 alert("Session expirée. Veuillez vous reconnecter.");
-                window.location.href = '/login';
+                navigate('/login');
             } else {
                 const errorData = await response.json().catch(() => ({}));
                 alert(`Erreur: ${errorData.message || 'Impossible de mettre à jour'}`);
@@ -280,7 +282,7 @@ function Notes() {
                 </div>
 
                 <div className="sidebar-bottom">
-                    <button className="logout-btn" onClick={() => { localStorage.clear(); window.location.href='/login'; }}>
+                    <button className="logout-btn" onClick={() => { localStorage.clear(); navigate('/login'); }}>
                         🚪 Déconnexion
                     </button>
                 </div>
